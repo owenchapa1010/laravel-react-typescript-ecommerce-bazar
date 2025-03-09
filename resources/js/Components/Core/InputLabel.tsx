@@ -10,7 +10,7 @@ export default function InputLabel({
         <label
             {...props}
             className={
-                `label` + className
+                `label ` + className
             }
         >
             <span className={'label-text'}>{value ? value : children}</span>
