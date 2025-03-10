@@ -28,7 +28,7 @@ export default function Register() {
             <Head title="Register" />
 
             <div className={'p-8'}>
-                <div className="card bg-white shadow max-w-[420px] mx-auto">
+                <div className="card bg-white shadow max-w-[420px] mx-auto dark: bg-gray-800">
                     <div className="card-body">
                     <form onSubmit={submit}>
                 <div>

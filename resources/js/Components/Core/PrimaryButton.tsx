@@ -1,7 +1,6 @@
 import { ButtonHTMLAttributes } from 'react';
 
 export default function PrimaryButton({
-    type = 'button',
     className = '',
     disabled,
     children,
@@ -10,7 +9,6 @@ export default function PrimaryButton({
     return (
         <button
             {...props}
-            type={type}
             className={`btn btn-primary ` + className}
             disabled={disabled}
         >
