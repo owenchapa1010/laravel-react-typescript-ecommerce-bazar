@@ -26,6 +26,7 @@ export default function Register() {
         <AuthenticatedLayout>
             <Head title="Register" />
 
+            {/* Card for the register form*/}
             <div className={'p-8'}>
                 <div className="card bg-white shadow max-w-[420px] mx-auto dark:bg-gray-800">
                     <div className="card-body">
