@@ -3,7 +3,6 @@ import InputLabel from '@/Components/Core/InputLabel';
 import PrimaryButton from '@/Components/Core/PrimaryButton';
 import TextInput from '@/Components/Core/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
@@ -28,7 +27,7 @@ export default function Register() {
             <Head title="Register" />
 
             <div className={'p-8'}>
-                <div className="card bg-white shadow max-w-[420px] mx-auto dark: bg-gray-800">
+                <div className="card bg-white shadow max-w-[420px] mx-auto dark:bg-gray-800">
                     <div className="card-body">
                     <form onSubmit={submit}>
                 <div>
