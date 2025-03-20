@@ -24,10 +24,9 @@ export default function Welcome({
             <div className="hero bg-base-200 h-[300px]">
                 <div className="hero-content text-center">
                     <div className="max-w-md">
-                        <h1 className="text-5xl font-bold">¡Hola!</h1>
+                        <h1 className="text-5xl font-bold">Hello!</h1>
                         <p className="py-6">
-                            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-                            quasi. In deleniti eaque aut repudiandae et a id nisi.
+                            This is a text where you can write different things
                         </p>
                         <button className="btn btn-primary">Get Started</button>
                     </div>

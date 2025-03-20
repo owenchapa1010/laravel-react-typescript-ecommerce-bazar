@@ -32,9 +32,9 @@ export default function Login({
         <AuthenticatedLayout>
             <Head title="Log in" />
 
-            {/* Card para el login*/}
+            {/* Card for the login form*/}
             <div className={'p-8'}>
-            <div className="card bg-white shadow max-w-[420px] mx-auto">
+            <div className="card bg-white shadow max-w-[420px] mx-auto dark:bg-gray-800">
                 <div className="card-body">
                 {status && (
                 <div className="mb-4 text-sm font-medium text-green-600">
@@ -104,7 +104,7 @@ export default function Login({
                         </Link>
                     )}
 
-                    <PrimaryButton className="ms-4" disabled={processing}>
+                    <PrimaryButton className="" disabled={processing}>
                         Log in
                     </PrimaryButton>
                 </div>
