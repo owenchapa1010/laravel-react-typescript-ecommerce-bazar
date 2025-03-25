@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Filament\Resources\ProductResource;
+use App\Filament\Resources\ProductResource\Pages\ProductVariations;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -29,5 +31,9 @@ class Product extends Model implements HasMedia
     public function variationTypes(){
         return $this->hasMany(VariationType::class);
     }
+
+    public function variations(){
+        return $this->hasMany(ProductVariation::class,'product_id');
+    }	
 
 }
