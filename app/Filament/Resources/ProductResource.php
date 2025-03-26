@@ -34,7 +34,13 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-queue-list';
 
+    
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::End;
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->forVendor();
+    }
 
     public static function form(Form $form): Form
     {
