@@ -13,6 +13,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Notifications\Collection;
 use Filament\Resources\Pages\EditRecord;
 use PhpParser\Node\Stmt\Label;
 use Schema;
@@ -33,7 +34,7 @@ class ProductVariations extends EditRecord
         foreach ($types as $type){
             $fields[] = TextInput::make('variation_type_' . ($type->id) . '.id')
                 ->hidden();
-            $fields[]= TextInput::make('variation_type_'.($type->id) . '.name')
+            $fields[]= TextInput::make('variation_type_'. ($type->id) . '.name')
                 ->label($type->name);
             
         }
@@ -89,16 +90,17 @@ class ProductVariations extends EditRecord
 
         foreach ($cartesianProduct as $product){
             $optionIds = collect($product)
-                ->filter(fn($value, $key) => str_starts_with($key, 'variation_type'))
+                ->filter(fn($value, $key) => str_starts_with($key, 'variation_type_'))
                 ->map(fn($option) => $option['id'])
                 ->values()
                 ->toArray();
 
                 $match = array_filter($existingData, function ($existingOption) use ($optionIds) {
-                    return $existingOption['variation_type_option_ids'] == $optionIds;
+                    return $existingOption['variation_type_option_ids'] === $optionIds;
                 });
                 if (!empty($match)){
                     $existingEntry = reset($match);
+                    $product['id'] = $existingEntry['id'];
                     $product['quantity'] = $existingEntry['quantity'];
                     $product['price'] = $existingEntry['price'];
                 }else{
@@ -118,7 +120,7 @@ class ProductVariations extends EditRecord
             foreach($variationType->options as $option){
                 foreach($result as $combination){
                     $newCombination = $combination + [
-                        'variation_type_'.($variationType->id)=>[
+                        'variation_type_' . ($variationType->id)=>[
                             'id'=>$option->id,
                             'name'=>$option->name,
                             'label'=>$variationType->name
@@ -146,12 +148,13 @@ class ProductVariations extends EditRecord
             
             $variationTypeOptionIds = [];
             foreach($this->record->variationTypes as $i => $variationType){
-                $variationTypeOptionIds[] = $option['variation_type_'.($variationType->id)]['id'];
+                $variationTypeOptionIds[] = $option['variation_type_' . ($variationType->id)]['id'];
             }
             $quantity = $option['quantity'];
             $price = $option['price'];
 
             $formattedData[]=[
+                'id' => $option['id'],
                 'variation_type_option_ids' => $variationTypeOptionIds,
                 'quantity' => $quantity,
                 'price' => $price
@@ -164,11 +167,17 @@ class ProductVariations extends EditRecord
         $variations = $data['variations'];
         unset($data['variations']);
 
-        $record->update($data);
+        $variations = collect($variations)->map(function($variation){
+            return [
+                'id'=> $variation['id'],
+                'variation_type_option_ids' => json_encode($variation['variation_type_option_ids']),
+                'quantity'=>$variation['quantity'],
+                'price'=>$variation['price']
+            ];
+        })->toArray();
+
         $record->variations()->delete();
-        $record->variations()->createMany($variations);
+        $record->variations()->upsert($variations,['id'], ['variation_type_option_ids', 'quantity', 'price']);
         return $record;
     }
-
-    //4:25:10 if you want another way to save the data
 }

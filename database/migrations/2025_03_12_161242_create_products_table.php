@@ -25,7 +25,7 @@ return new class extends Migration
                 ->constrained('categories');
             $table->decimal('price',20,4);
             $table->string('status')->index();
-            $table->decimal('quantity')->nullable();
+            $table->integer('quantity')->nullable();
             $table->foreignIdFor(User::class, 'created_by');
             $table->foreignIdFor(User::class, 'updated_by');
             $table->timestamp('deleted_at')->nullable();
