@@ -76,7 +76,6 @@ function Show({
             Object.entries(newOptions).map(([a, b]) => [a, b.id])
         );
     };
-
     const chooseOption = (typeId: number, option: VariationTypeOption, updateRouter: boolean = true) => {
         setSelectedOptions((prevSelectedOptions) => {
             const newOptions = { ...prevSelectedOptions, [typeId]: option };

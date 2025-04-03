@@ -3,8 +3,11 @@ import React from "react";
 import { Link } from "@inertiajs/react";
 import CurrencyFormatter from "../Core/CurrencyFormatter";
 
-
 function ProductItem({product}:{product: Product}){
+
+//Add OnClick Property for Home Page
+
+
     return (
         <div className="card bg-base-100 shadow-xl">
             <Link href={route('product.show', product.slug)}>
@@ -32,3 +35,7 @@ function ProductItem({product}:{product: Product}){
 }
 
 export default ProductItem;
+function useForm<T>(arg0: { option_ids: {}; quantity: number; }) {
+    throw new Error("Function not implemented.");
+}
+
