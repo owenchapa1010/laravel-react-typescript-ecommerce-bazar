@@ -24,6 +24,11 @@ class CartService
 
     public function addItemToCart(Product $product, int $quantity = 1,  $optionIds = null)
     {
+        Log::info('Adding item to cart', [
+            'product_id' => $product->id,
+            'quantity' => $quantity,
+            'optionIds' => $optionIds
+        ]);
         if ($optionIds === null){
             $optionIds = $product->variationTypes
                 ->mapWithKeys(fn(VariationType $type) => [$type->id => $type->options[0]?->id])
@@ -95,21 +100,21 @@ class CartService
                             ],
                         ];
                     }
-                    $cartItemData[] = [
-                        'id' => $cartItem['id'],
-                        'product_id' => $product->id,
-                        'title' => $product->title,
-                        'slug' => $product->slug,
-                        'price' => $cartItem['price'],  
-                        'quantity' => $cartItem['quantity'],
-                        'option_ids' => $cartItem['option_ids'],
-                        'options' => $optionInfo,
-                        'image' => $imageUrl ?: $product->getFirstMediaUrl('images', 'small'),
-                        'user' => [
-                            'id' => $product->created_by,
-                            'name' => $product->user->vendor->store_name,
-                        ]
-                    ];
+                        $cartItemData[] = [
+                            'id' => $cartItem['id'],
+                            'product_id' => $product->id,
+                            'title' => $product->title,
+                            'slug' => $product->slug,
+                            'price' => $cartItem['price'],  
+                            'quantity' => $cartItem['quantity'],
+                            'option_ids' => $cartItem['option_ids'],
+                            'options' => $optionInfo,
+                            'image' => $imageUrl ?: $product->getFirstMediaUrl('images', 'small'),
+                            'user' => [
+                                'id' => $product->created_by,
+                                'name' => $product->user && $product->user->vendor ? $product->user->vendor->store_name : 'Unknown Vendor',
+                            ]
+                        ];
                 }
                 $this->cachedCartItems = $cartItemData;
             }
@@ -251,13 +256,13 @@ class CartService
 
     public function moveCartItemsToDatabase($userId){
         $cartItems = $this->getCartItemsFromCookies();
-
+    
         foreach($cartItems as $itemKey => $cartItem){
             $existingItem = CartItem::where('user_id', $userId)
                 ->where('product_id', $cartItem['product_id'])
                 ->where('variation_type_option_ids', json_encode($cartItem['option_ids']))
                 ->first();
-
+    
                 if ($existingItem){
                     $existingItem->update([
                         'quantity' => $existingItem->quantity + $cartItem['quantity'],
@@ -267,11 +272,10 @@ class CartService
                 else{
                     CartItem::create([
                         'user_id' => $userId,
-                        'product_id' => $cartItems['product_id'],
-                        'quantity' =>  $cartItems['quantity'],
-                        'price' => $cartItems['price'],
-                        'variation_type_option_ids' => $cartItem['option_ids']
-
+                        'product_id' => $cartItem['product_id'], // Corregido
+                        'quantity' =>  $cartItem['quantity'], // Corregido
+                        'price' => $cartItem['price'],
+                        'variation_type_option_ids' => json_encode($cartItem['option_ids']) // Falta json_encode
                     ]);
                 }
         }
