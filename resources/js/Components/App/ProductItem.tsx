@@ -1,9 +1,29 @@
 import { Product } from "@/types";
 import React from "react";
-import { Link } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import CurrencyFormatter from "../Core/CurrencyFormatter";
 
 function ProductItem({ product }: { product: Product }) {
+        
+    const form = useForm<{
+        option_ids: Record<string, number>;
+        quantity: number;
+        price: number | null;
+    }>({
+        option_ids: {},
+        quantity: 1,
+        price: null,
+    });
+
+    const addToCart = () => {
+        form.post(route("cart.store", product.id), {
+            preserveScroll: true,
+            preserveState: true,
+            onError: (err) => {
+                console.log(err);
+            },
+        });
+    };
     return (
         <div className="relative group transition-all duration-300">
             <div className="rounded-xl bg-white dark:bg-gray-900 shadow-sm group-hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-800 h-full flex flex-col ring-0 ring-offset-0 group-hover:ring-2 group-hover:ring-white-400 group-hover:ring-offset-2 group-hover:ring-offset-transparent">
@@ -32,7 +52,7 @@ function ProductItem({ product }: { product: Product }) {
                         </p>
                     </div>
                     <div className="flex items-center justify-between pt-4 mt-2 border-t border-gray-100 dark:border-gray-800">
-                        <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-3 px-5 rounded-lg transition-all duration-300 shadow-sm hover:shadow">
+                        <button onClick={addToCart} className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-3 px-5 rounded-lg transition-all duration-300 shadow-sm hover:shadow">
                             Add to Cart
                         </button>
                         <span className="text-lg font-bold text-gray-900 dark:text-gray-100">

@@ -1,12 +1,12 @@
 import ProductItem from '@/Components/App/ProductItem';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PageProps, PaginationProps, Product } from '@/types';
-import { Head, Link } from '@inertiajs/react';
-import { ArrowRight, Search } from 'lucide-react';
+import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Home({
     products,
 }: PageProps<{ products: PaginationProps<Product> }>) {
+
     return (
         <AuthenticatedLayout>
             <Head title="Home" />
