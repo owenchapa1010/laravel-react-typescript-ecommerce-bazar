@@ -1,15 +1,15 @@
 import { Link, usePage } from "@inertiajs/react";
 import React, { useState } from "react";
 import MiniCartDropDown from "./MiniCartDropdown";
-import { Menu, Search, ShoppingBag, User } from "lucide-react";
+import { Menu, User } from "lucide-react";
 
 export default function Navbar() {
-    const { auth, totalPrice, totalQuantity } = usePage().props;
+    const { auth } = usePage().props;
     const { user } = auth;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-sm">
+        <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-sm transition-colors duration-300">
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-16 lg:h-20">
                     {/* Mobile menu button */}
@@ -21,23 +21,24 @@ export default function Navbar() {
                     </button>
 
                     {/* Logo */}
-                    <div className="flex-shrink-0 flex items-center">
-                        <Link href="/" className="flex items-center">
-                            <span className="text-xl font-bold text-blue-600 dark:text-blue-400">
-                                Blue Avenue
-                            </span>
+                    <div className="flex-shrink-0">
+                        <Link
+                            href="/"
+                            className="text-xl font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-300"
+                        >
+                            Blue Avenue
                         </Link>
                     </div>
 
-                    {/* Right Side Icons & User Menu */}
+                    {/* Right Side */}
                     <div className="flex items-center space-x-5">
 
-                        {/* Cart Dropdown */}
+                        {/* Cart */}
                         <div className="relative">
                             <MiniCartDropDown />
                         </div>
 
-                        {/* User Menu */}
+                        {/* User Dropdown */}
                         {user ? (
                             <div className="relative">
                                 <div className="dropdown dropdown-end">
@@ -54,7 +55,7 @@ export default function Navbar() {
                                         <li className="px-1 py-2 text-sm text-gray-500 dark:text-gray-400">
                                             Signed in as <span className="font-medium text-gray-900 dark:text-white">{user.name}</span>
                                         </li>
-                                        <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                                        <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
                                         <li>
                                             <Link
                                                 href={route('profile.edit')}
@@ -64,9 +65,7 @@ export default function Navbar() {
                                                 Profile
                                             </Link>
                                         </li>
-                                        <li>
-                                        </li>
-                                        <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                                        <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
                                         <li>
                                             <Link 
                                                 href={route('logout')} 
@@ -84,13 +83,13 @@ export default function Navbar() {
                             <div className="flex items-center space-x-2">
                                 <Link 
                                     href={route('login')} 
-                                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 transition-colors"
+                                    className="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 transition-colors px-4 py-2 rounded-md"
                                 >
                                     Login
                                 </Link>
                                 <Link 
                                     href={route('register')} 
-                                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+                                    className="text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 px-4 py-2 rounded-md transition-colors"
                                 >
                                     Register
                                 </Link>
@@ -99,7 +98,6 @@ export default function Navbar() {
                     </div>
                 </div>
             </div>
-
         </header>
     );
 }
