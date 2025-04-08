@@ -48,12 +48,12 @@ export default function Home({
             {/* Categories Section */}
             <section className="bg-gray-50 dark:bg-gray-800 py-6 sm:py-8 border-b border-gray-200 dark:border-gray-700">
                 <div className="container mx-auto px-4 sm:px-6">
-                    <div className="flex overflow-x-auto scrollbar-hide py-1 gap-2 sm:gap-4 justify-start sm:justify-center">
+                    <div className="flex overflow-x-auto scrollbar-hide py-1 gap-4 justify-start sm:justify-center">
                         {['Electronics', 'Fashion', 'Home & Kitchen', 'Books', 'Sports', 'Beauty', 'Toys'].map((category) => (
                             <Link 
                                 key={category} 
                                 href="#" 
-                                className="px-3 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm sm:text-base font-medium shadow-sm hover:shadow whitespace-nowrap transition-all duration-300 hover:bg-blue-50 dark:hover:bg-gray-600"
+                                className="px-5 py-3 rounded-full bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-base sm:text-lg font-semibold shadow-md hover:shadow-xl whitespace-nowrap transition-all duration-300 hover:bg-blue-50 dark:hover:bg-gray-600"
                             >
                                 {category}
                             </Link>

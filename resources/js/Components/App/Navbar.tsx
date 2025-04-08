@@ -83,7 +83,7 @@ export default function Navbar() {
                             <div className="flex items-center space-x-2">
                                 <Link 
                                     href={route('login')} 
-                                    className="btn btn-secondary text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400 transition-colors px-4 py-2 rounded-md"
+                                    className="btn btn-secondary text-sm font-medium text-gray-700 hover:text-white-600 dark:text-gray-200 dark:hover:text-white-400 transition-colors px-4 py-2 rounded-md"
                                 >
                                     Login
                                 </Link>
