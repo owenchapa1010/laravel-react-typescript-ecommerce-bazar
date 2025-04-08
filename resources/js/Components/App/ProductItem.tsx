@@ -3,39 +3,44 @@ import React from "react";
 import { Link } from "@inertiajs/react";
 import CurrencyFormatter from "../Core/CurrencyFormatter";
 
-function ProductItem({product}:{product: Product}){
-
-//Add OnClick Property for Home Page
-
-
+function ProductItem({ product }: { product: Product }) {
     return (
-        <div className="card bg-base-100 shadow-xl">
+        <div className="rounded-xl bg-white dark:bg-gray-900 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group border border-gray-100 dark:border-gray-800 h-full flex flex-col">
             <Link href={route('product.show', product.slug)}>
-                <figure>
-                    <img 
-                    src={product.image} 
-                    alt={product.title}
-                    className="aspect-square object-cover" 
+                <div className="relative overflow-hidden">
+                    <img
+                        src={product.image}
+                        alt={product.title}
+                        className="w-full h-72 object-cover transform group-hover:scale-105 transition duration-500"
                     />
-                </figure>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
             </Link>
-            <div className="card-body">
-                <h2 className="card-title">{product.title}</h2>
-                    <p>
-                        by <Link href="/" className="hover:underline">{product.user.name}</Link>&nbsp;
-                        in <Link href="/" className="hover:underline">{product.department.name}</Link>
-                    </p>
-                    <div className="card-actions items-center justify-between mt-3">
-                        <button className="btn btn-primary">Add to Cart</button>
-                        <span className="text-2xl"><CurrencyFormatter amount={product.price}/></span>
+            <div className="p-5 flex flex-col justify-between flex-grow">
+                <div>
+                    <div className="flex items-center mb-2">
+                        <Link href="/" className="text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:underline">
+                            {product.department.name}
+                        </Link>
                     </div>
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white line-clamp-2 ">
+                        {product.title}
+                    </h2>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 mb-4">
+                        by <Link href="/" className="text-blue-600 dark:text-blue-400 hover:underline">{product.user.name}</Link>
+                    </p>
+                </div>
+                <div className="flex items-center justify-between pt-4 mt-2 border-t border-gray-100 dark:border-gray-800">
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-3 px-5 rounded-lg transition-all duration-300 shadow-sm hover:shadow">
+                        Add to Cart
+                    </button>
+                    <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                        <CurrencyFormatter amount={product.price} />
+                    </span>
+                </div>
             </div>
         </div>
     );
 }
 
 export default ProductItem;
-function useForm<T>(arg0: { option_ids: {}; quantity: number; }) {
-    throw new Error("Function not implemented.");
-}
-

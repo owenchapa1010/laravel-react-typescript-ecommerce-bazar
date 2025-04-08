@@ -1,94 +1,112 @@
-import React, {useState} from 'react';
-import {Link, router, useForm} from '@inertiajs/react';
+import React, { useState } from 'react';
+import { Link, router, useForm } from '@inertiajs/react';
 import { CartItem as CartItemType } from '@/types';
 import TextInput from '@/Components/Core/TextInput';
-import CurrencyFormatter from '@/Components/Core/CurrencyFormatter'
+import CurrencyFormatter from '@/Components/Core/CurrencyFormatter';
 import { productRoute } from '@/types/helpers';
-import { error } from 'console';
 
 function CartItem({ item }: { item: CartItemType }) {
-
-    const deleteForm = useForm({
-        option_ids: item.option_ids
-    })
-
-    const [error, setError] = useState('')
+    const deleteForm = useForm({ option_ids: item.option_ids });
+    const [error, setError] = useState('');
 
     const onDeleteClick = () => {
-        deleteForm.delete(route('cart.destroy', item.product_id),{
+        deleteForm.delete(route('cart.destroy', item.product_id), {
             preserveScroll: true
-        })
-    }
-
-    const handleQuantityChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        setError('')
-        router.put(route('cart.update', item.product_id),{
-            quantity: ev.target.value,
-            option_ids: item.option_ids
-        },{
-            preserveScroll: true,
-            onError: (errors) => {
-                setError(Object.values(errors)[0])
-            }
-        })
+        });
     };
 
+    const handleQuantityChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        setError('');
+        router.put(
+            route('cart.update', item.product_id),
+            {
+                quantity: ev.target.value,
+                option_ids: item.option_ids
+            },
+            {
+                preserveScroll: true,
+                onError: (errors) => {
+                    setError(Object.values(errors)[0]);
+                }
+            }
+        );
+    };
 
-    return(
+    return (
         <>
-            <div key={item.id} className='flex gap-6 p-3'>
-                <Link 
+            <div key={item.id} className="flex flex-col sm:flex-row gap-6 p-5 bg-white dark:bg-gray-900 rounded-xl shadow-sm hover:shadow-md transition">
+                {/* Product Image */}
+                <Link
                     href={productRoute(item)}
-                    className='w-32 min-w-32 min-h-32 flex justify-center self-start'>
-                    <img src={item.image} alt='' className='max-w-full max-h-full'/>
+                    className="w-full sm:w-32 min-w-32 aspect-square bg-gray-100 dark:bg-gray-800 rounded-md overflow-hidden flex justify-center items-center"
+                >
+                    <img
+                        src={item.image}
+                        alt={item.title}
+                        className="object-cover w-full h-full"
+                    />
                 </Link>
-                <div className='flex-1 flex flex-col'>
-                    <div className='flex-1'>
-                        <h3 className='mb-3 text-sm font-semibold'>
-                            <Link href={productRoute(item)}>
+
+                {/* Product Info */}
+                <div className="flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                            <Link
+                                href={productRoute(item)}
+                                className="hover:underline"
+                            >
                                 {item.title}
                             </Link>
                         </h3>
-                        <div className='text-xs'>
-                            {item.options.map(option => (
+
+                        {/* Options */}
+                        <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                            {item.options.map((option) => (
                                 <div key={option.id}>
-                                    <strong className='text-bold'>
+                                    <strong className="text-gray-700 dark:text-gray-300">
                                         {option.type.name}:
-                                    </strong>
+                                    </strong>{' '}
                                     {option.name}
                                 </div>
                             ))}
                         </div>
                     </div>
-                    <div className='flex justify-between items-center mt-4'>
-                        <div className='flex gap-2 items-center'>
-                            <div className='text-sm'>
+
+                    {/* Bottom Row: Quantity & Actions */}
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-5 gap-3">
+                        <div className="flex flex-wrap items-center gap-3">
+                            <div className="text-sm text-gray-700 dark:text-gray-300">
                                 Quantity:
                             </div>
                             <div className={error ? 'tooltip tooltip-open tooltip-error' : ''} data-tip={error}>
-                            <TextInput type='number'
-                                defaultValue={item.quantity}
-                                onBlur={handleQuantityChange}
-                                className='input-sm w-16'>
-                                </TextInput>
+                                <TextInput
+                                    type="number"
+                                    defaultValue={item.quantity}
+                                    onBlur={handleQuantityChange}
+                                    className="input-sm w-16 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                />
                             </div>
-                            <button onClick={() => onDeleteClick()}
-                                className='btn btn-sm btn-ghost'>
-                                    Delete
-                                </button>
-                                <button className='btn btn-sm btn-ghost'>
-                                    Save For Later
-                                </button>
+
+                            <button
+                                onClick={onDeleteClick}
+                                className="text-sm text-red-600 dark:text-red-400 hover:underline"
+                            >
+                                Delete
+                            </button>
+
+                            <button className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+                                Save for later
+                            </button>
                         </div>
-                        <div className='font-bold text-lg'>
-                            <CurrencyFormatter amount={item.price * item.quantity}/>
+
+                        <div className="text-lg font-bold text-gray-900 dark:text-white mt-3 sm:mt-0">
+                            <CurrencyFormatter amount={item.price * item.quantity} />
                         </div>
                     </div>
                 </div>
             </div>
-            <div className='divider'>
 
-            </div>
+            <div className="divider my-6" />
         </>
     );
 }
