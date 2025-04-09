@@ -9,7 +9,7 @@ export default {
         './resources/views/**/*.blade.php',
         './resources/js/**/*.tsx',
     ],
-
+ 
     theme: {
         extend: {
             fontFamily: {
